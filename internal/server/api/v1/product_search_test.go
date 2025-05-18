@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-const ProductSearchHost = "http://127.0.0.1:9091"
+const ProductSearchHost = "http://127.0.0.1:9090"
 const ProductSearchUri = "/api/v1/product-search"
 
 var (

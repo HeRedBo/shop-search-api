@@ -3,7 +3,6 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	v1 "shop-search-api/internal/server/api/v1"
-	"shop-search-api/internal/server/middleware/auth"
 )
 
 func InitRouter() *gin.Engine {
@@ -15,7 +14,7 @@ func InitRouter() *gin.Engine {
 
 	//通过中间件进行接口签名校验
 	apiv1 := engin.Group("/api/v1")
-	apiv1.Use(auth.Auth())
+	//apiv1.Use(auth.Auth())
 	apiv1.GET("/product-search", v1.ProductSearch)
 
 	return engin

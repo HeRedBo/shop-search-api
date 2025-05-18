@@ -71,7 +71,9 @@ func initESClient() {
 	err := es.InitClientWithOptions(es.DefaultClient, ESCfg.Host,
 		ESCfg.User,
 		ESCfg.Password,
-		es.WithScheme("https"))
+		es.WithScheme("https"),
+		es.WithQueryLogEnable(true), // 启用查询日志
+	)
 	if err != nil {
 		logger.Error("InitClientWithOptions error", zap.Error(err), zap.String("client", es.DefaultClient))
 		panic(err)

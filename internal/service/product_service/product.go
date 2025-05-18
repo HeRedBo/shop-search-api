@@ -69,7 +69,11 @@ func (p *Product) SearchProduct() (result *elastic.SearchResult, err error) {
 	//默认按照相关度算分来排序
 	orders = append(orders, map[string]bool{"_score": false})
 	return global.ES.Query(context.Background(), global.ProductIndexName,
-		nil, query, from, p.PageSize, es.WithEnableDSL(true),
+		nil, query, from, p.PageSize,
+		es.WithEnableDSL(true),
 		es.WithPreference(strutil.Int64ToString(p.UserID)),
-		es.WithFetchSource(false), es.WithOrders(orders))
+		es.WithFetchSource(true),
+		es.WithOrders(orders),
+		es.WithProfile(false),
+	)
 }

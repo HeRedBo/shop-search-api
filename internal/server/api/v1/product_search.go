@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
 	"go.uber.org/zap"
@@ -60,11 +61,11 @@ func ProductSearch(c *gin.Context) {
 	resp.Total = res.Hits.TotalHits.Value
 	for _, hit := range res.Hits.Hits {
 		index := &product_repo.ProductIndex{}
-		//err = json.Unmarshal(hit.Source, index)
-		//if err != nil {
-		//	global.LOG.Error("Unmarshal error", zap.Error(err))
-		//	continue
-		//}
+		err = json.Unmarshal(hit.Source, index)
+		if err != nil {
+			global.LOG.Error("Unmarshal error", zap.Error(err))
+			continue
+		}
 		index.Id, err = strconv.ParseInt(hit.Id, 10, 64)
 		if err != nil {
 			global.LOG.Error("strconv.ParseInt error", zap.Error(err), zap.String("id", hit.Id))
@@ -73,7 +74,7 @@ func ProductSearch(c *gin.Context) {
 		resp.Hits = append(resp.Hits, index)
 	}
 
-	global.LOG.Warn("resp", zap.Any("resp", resp))
+	//global.LOG.Warn("resp", zap.Any("resp", resp))
 	appG.ResponseOk(errcode.ErrCodes.ErrNo, resp)
 
 }
