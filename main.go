@@ -1,16 +1,22 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"github.com/HeRedBo/pkg/cache"
 	"github.com/HeRedBo/pkg/db"
 	"github.com/HeRedBo/pkg/es"
 	"github.com/HeRedBo/pkg/logger"
 	"github.com/HeRedBo/pkg/nosql"
+	"github.com/HeRedBo/pkg/shutdown"
 	"github.com/HeRedBo/pkg/timeutil"
 	"github.com/go-redis/redis/v7"
 	"go.uber.org/zap"
+	"net/http"
 	"shop-search-api/config"
 	"shop-search-api/global"
+	"shop-search-api/internal/server/api"
+	"time"
 )
 
 func init() {
@@ -85,5 +91,61 @@ func initMongoClient() {
 }
 
 func main() {
+	router := api.InitRouter()
+	listenAddr := fmt.Sprintf(":%d", config.Cfg.App.HttpPort)
+	global.LOG.Warn("start http server", zap.String("listenAddr", listenAddr))
+	server := &http.Server{
+		Addr:           listenAddr,
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
+	go func() {
+		err := server.ListenAndServe()
+		if err != nil {
+			global.LOG.Error("http server start error", zap.Error(err))
+		}
+	}()
+
+	//优雅关闭
+	shutdown.NewHook().Close(
+		func() {
+			ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+			defer cancel()
+			if err := server.Shutdown(ctx); err != nil {
+				global.LOG.Error("http server shutdown err", zap.Error(err))
+			}
+		},
+
+		func() {
+			es.CloseAll()
+		},
+
+		func() {
+			//关闭mysql
+			if err := db.CloseMysqlClient(db.DefaultClient); err != nil {
+				global.LOG.Error("mysql shutdown err", zap.Error(err), zap.String("client", db.DefaultClient))
+			}
+		},
+
+		func() {
+			err := global.CACHE.Close()
+			if err != nil {
+				global.LOG.Error("redis close error", zap.Error(err), zap.String("client", cache.DefaultRedisClient))
+			}
+		},
+		func() {
+			if global.Mongo != nil {
+				global.Mongo.Close()
+			}
+		},
+		func() {
+			err := global.LOG.Sync()
+			if err != nil {
+				fmt.Println(err)
+			}
+		},
+	)
 
 }

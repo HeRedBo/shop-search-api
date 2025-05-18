@@ -8,10 +8,14 @@ require (
 	github.com/HeRedBo/pkg/cache v0.0.0-20250511065720-ada4d165d7ad // indirect
 	github.com/HeRedBo/pkg/db v0.0.0-20250511065720-ada4d165d7ad // indirect
 	github.com/HeRedBo/pkg/errors v1.0.0 // indirect
-	github.com/HeRedBo/pkg/es v0.0.0-20250511065720-ada4d165d7ad // indirect
+	github.com/HeRedBo/pkg/es v0.0.0-20250518001838-91f97fc88491 // indirect
+	github.com/HeRedBo/pkg/httpclient v0.0.0-20250518092132-658893059cf6 // indirect
 	github.com/HeRedBo/pkg/logger v0.0.0-20250511065720-ada4d165d7ad // indirect
 	github.com/HeRedBo/pkg/nosql v0.0.0-20250511065720-ada4d165d7ad // indirect
+	github.com/HeRedBo/pkg/shutdown v0.0.0-20250518001838-91f97fc88491 // indirect
+	github.com/HeRedBo/pkg/strutil v0.0.0-20250518001838-91f97fc88491 // indirect
 	github.com/HeRedBo/pkg/timeutil v0.0.0-20250511065720-ada4d165d7ad // indirect
+	github.com/HeRedBo/pkg/trace v0.0.0-20250518050431-4d871bc5b716 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
@@ -37,7 +41,7 @@ require (
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
-	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
@@ -53,6 +57,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.12 // indirect
+	github.com/unknwon/com v1.0.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
 	github.com/xdg-go/stringprep v1.0.4 // indirect
