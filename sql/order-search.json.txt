@@ -1,0 +1,60 @@
+GET shop-order/_search?routing=3
+{
+  "_source": false,
+  "from": 0,
+  "highlight": {
+    "fields": {
+      "names": {},
+      "names.pinyin": {}
+    },
+    "fragment_size": 100,
+    "number_of_fragments": 1
+  },
+  "query": {
+    "bool": {
+      "minimum_should_match": "1",
+      "must": {
+        "term": {
+          "uid": 3
+        }
+      },
+      "should": [
+        {
+          "match_phrase": {
+            "names": {
+              "_name": "namesMatchPhreaseQuery",
+              "boost": 2,
+              "query": "手机"
+            }
+          }
+        },
+        {
+          "match_phrase": {
+            "names": {
+              "_name": "namesMatchQuery",
+              "boost": 1,
+              "query": "手机"
+            }
+          }
+        },
+        {
+          "match_phrase": {
+            "names.pinyin": {
+              "_name": "namesPinyinMatchPhreaseQuery",
+              "boost": 0.7,
+              "query": "手机"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "size": 10,
+  "sort": [
+    {
+      "_score": {
+        "order": "desc"
+      }
+    }
+  ]
+}

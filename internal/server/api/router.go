@@ -16,6 +16,7 @@ func InitRouter() *gin.Engine {
 	apiv1 := engin.Group("/api/v1")
 	//apiv1.Use(auth.Auth())
 	apiv1.GET("/product-search", v1.ProductSearch)
+	apiv1.GET("/order-search", v1.OrderSearch)
 
 	return engin
 }
